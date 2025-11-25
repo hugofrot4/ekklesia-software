@@ -33,6 +33,18 @@ app.post('/visitors', (req, res) => {
     )
 });
 
+app.get('/visitors', (req, res) => {
+    db.all(`SELECT * FROM visitors`, [], (error, rows) => {
+        if (error) {
+            res.status(500).send('Erro ao buscar visitantes');
+            console.log("Erro ao buscar visitantes:", error);
+        } else {
+            res.status(200).send(rows);
+            console.log("Visitantes buscados com sucesso:", rows);
+        }
+    })
+})
+
 app.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');
 });
