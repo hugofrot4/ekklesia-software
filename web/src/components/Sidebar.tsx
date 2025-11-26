@@ -1,18 +1,20 @@
 'use client';
 
-import { ArrowLeftFromLine, ArrowRightFromLine, ContactRound, House } from "lucide-react";
+import { ArrowLeftFromLine, ArrowRightFromLine, ContactRound, House, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 interface SidebarProps {
     isExpanded: boolean;
     toggle: () => void;
+    isMobileOpen: boolean;
+    toggleMobile: () => void;
 }
 
-export function Sidebar({ isExpanded, toggle }: SidebarProps) {
+export function Sidebar({ isExpanded, toggle, isMobileOpen, toggleMobile }: SidebarProps) {
     return (
-        <aside className={`fixed left-0 top-0 h-screen p-4 border-r border-gray-300 transition-all duration-300 ease-in-out z-50 ${isExpanded ? 'w-64' : 'w-20'}`}>
-            <div className={`flex items-center justify-between h-16 border-b border-gray-300 gap-1 ${!isExpanded && 'gap-0 justify-center relative'}`}>
+        <aside className={`fixed w-full top-0 h-screen bg-white border-r border-gray-300 transition-all duration-300 ease-in-out z-50 p-4 py-16 md:py-4 md:left-0 ${isMobileOpen ? 'left-0' : '-left-full'}  ${isExpanded ? 'md:w-64' : 'md:w-20'}`}>
+            <div className={`flex items-center md:justify-between h-16 border-b border-gray-300 gap-2 md:gap-1 ${!isExpanded && 'gap-0 justify-center relative'}`}>
                 <Image
                     src="/ekklesia-logo.png"
                     alt="logotipo ekklesia software"
@@ -24,8 +26,14 @@ export function Sidebar({ isExpanded, toggle }: SidebarProps) {
                     Ekklesia Software
                 </span>
                 <button
+                    onClick={toggleMobile}
+                    className={`fixed md:hidden top-4 left-4 rounded bg-white border border-gray-300 hover:bg-gray-200 transition-colors w-8 h-8 flex items-center justify-center`}
+                >
+                    {isMobileOpen ? <X size={16} /> : <Menu size={16} />}
+                </button>
+                <button
                     onClick={toggle}
-                    className={`rounded bg-white border border-gray-300 hover:bg-gray-200 transition-colors w-8 h-8 flex items-center justify-center ${!isExpanded && 'absolute top-[calc(50% - 16px)] -right-9'}`}
+                    className={`hidden md:flex rounded bg-white border border-gray-300 hover:bg-gray-200 transition-colors w-8 h-8 items-center justify-center ${!isExpanded && 'absolute top-[calc(50% - 16px)] -right-9'}`}
                 >
                     {isExpanded ? <ArrowLeftFromLine size={16} /> : <ArrowRightFromLine size={16} />}
                 </button>
